@@ -12,6 +12,7 @@
 
 
 
+
   <!--<label >Categorie: </label>-->
   <!--<input type="text" [(ngModel)]="quiz.categorie">-->
 
@@ -27,30 +28,26 @@
   <!--<br>-->
 
 
-  <form (ngSubmit)="submitQuiz(rForm.value)" [formGroup]="rForm">
+  <form (ngSubmit)="nextQuestion(rForm.value,id_question)" [formGroup]="rForm">
 
 
   <label>Categorie
     <input type="text" formControlName="category">
   </label>
-  <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">
+
 
     <div formGroupName="questions">
       <input type="hidden" formControlName="id"  >
       <label>
-        question
+        question {{id_question}}:
         <input type="text"  formControlName="question" >
       </label>
-      <label >answer :
+      <label >answer {{id_question}} :
         <input type="text" formControlName="answer"></label>
-
+     <button (click)="submitQuiz()">Submit quiz</button>
     </div>
 
-  </div>
-
-
-
-  <button type="submit" color="primary" [disabled]="">Submit Quiz</button>
+  <button type="submit" color="primary" [disabled]="!rForm">Next Question</button>
 
   </form>
 

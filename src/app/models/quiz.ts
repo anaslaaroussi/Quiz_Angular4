@@ -3,13 +3,15 @@ export interface Quiz {
   $key ?: string;
   categorie ?: string;
 
-  questions : {
+  questions : Questions[]
+}
 
-    id ?: number;
-    question ?: string;
-    answer?: string;
+export interface Questions {
 
-  }
+  id ?: number;
+  question ?: string;
+  answer?: string;
+
 }
 
 
