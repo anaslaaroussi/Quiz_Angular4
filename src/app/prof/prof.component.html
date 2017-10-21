@@ -8,46 +8,31 @@
 
   <h3>Formulaire</h3>
 
+  <form (ngSubmit)="submitQuiz(f)" #f="ngForm">
+<div class="form-group">
 
-
-
-
-
-  <!--<label >Categorie: </label>-->
-  <!--<input type="text" [(ngModel)]="quiz.categorie">-->
-
-  <!--<br><br>-->
-  <!--<label >Question 1 :  </label>-->
-  <!--<input type="hidden" class="form-control"  >-->
-  <!--<div [(ngModel)]="quiz.questions">-->
-    <!--<input  type="text" (ngModel)="answer"  >-->
-  <!--</div>-->
-  <!--<input  type="text" (ngModel)="quiz.questions[1].answer"  >-->
-  <!--<label >Answer 1 :  </label>-->
-  <!--<input type="text"  (ngModel)="quiz?.questions[0].answer" >-->
-  <!--<br>-->
-
-
-  <form (ngSubmit)="nextQuestion(rForm.value,id_question)" [formGroup]="rForm">
 
 
   <label>Categorie
-    <input type="text" formControlName="category">
+    <input type="text"  name="categorie" ngModel>
   </label>
 
 
-    <div formGroupName="questions">
-      <input type="hidden" formControlName="id"  >
-      <label>
-        question {{id_question}}:
-        <input type="text"  formControlName="question" >
-      </label>
-      <label >answer {{id_question}} :
-        <input type="text" formControlName="answer"></label>
-     <button (click)="submitQuiz()">Submit quiz</button>
-    </div>
+  <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">
 
-  <button type="submit" color="primary" [disabled]="!rForm">Next Question</button>
+    <label>
+      question {{i}}:
+      <input type="text" name="question{{i}}" id="question{{i}}"  ngModel>
+    </label>
+    <label >answer {{i}} :
+      <input type="text" name="answer{{i}}"    id="answer{{i}}"   ngModel></label>
+    <button (click)="disableInput(i)">Valider</button>
+
+  </div>
+
+  <button type="submit">Submit quiz</button>
+
+</div>
 
   </form>
 
@@ -55,67 +40,9 @@
 
 
 
+  <button  routerLink="/myquizs">Mes quizs</button>
 
 
-
-
-
-
-
-  <!--<label >Question 2 : </label>-->
-  <!--<input type="text" #q2>-->
-  <!--<label >Answer 2 : </label>-->
-  <!--<input type="text" #a2>-->
-  <!--<br>-->
-  <!--<label >Question 3 : </label>-->
-  <!--<input type="text" #q3>-->
-  <!--<label >Answer 3 : </label>-->
-  <!--<input type="text" #a3>-->
-
-  <!--<br>-->
-  <!--<label >Question 4: </label>-->
-  <!--<input type="text" #q4>-->
-  <!--<label >Answer 4: </label>-->
-  <!--<input type="text" #a4>-->
-
-
-  <!--<br>-->
-  <!--<label >Question 5 : </label>-->
-  <!--<input type="text" #q5>-->
-  <!--<label >Answer 5 : </label>-->
-  <!--<input type="text" #a5>-->
-
-  <!--<br>-->
-  <!--<label >Question 6 : </label>-->
-  <!--<input type="text" #q6>-->
-  <!--<label >Answer 6 : </label>-->
-  <!--<input type="text" #a6>-->
-
-  <!--<br>-->
-  <!--<label >Question 7 : </label>-->
-  <!--<input type="text" #q7>-->
-  <!--<label >Answer 7 : </label>-->
-  <!--<input type="text" #a7>-->
-
-  <!--<br>-->
-  <!--<label >Question 8: </label>-->
-  <!--<input type="text" #q8>-->
-  <!--<label >Answer 8: </label>-->
-  <!--<input type="text" #a8>-->
-
-  <!--<br>-->
-  <!--<label >Question 9 :</label>-->
-  <!--<input type="text" #q9>-->
-  <!--<label >Answer 9 :</label>-->
-  <!--<input type="text" #a9>-->
-  <!--<br>-->
-  <!--<label >Question 10</label>-->
-  <!--<input type="text" #q10>-->
-<!--<label >Answer 10</label>-->
-  <!--<input type="text" #a10>-->
-
-  <!--<br>-->
-<!--<button color="primary" (click)="submitQuiz(quiz)">Submit Quiz</button>-->
 
 </div>
 

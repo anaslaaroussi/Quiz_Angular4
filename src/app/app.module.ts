@@ -12,24 +12,27 @@ import {AngularFireModule} from "angularfire2";
 import {FIREBASE_CONFIG} from "./models/FIREBASE_CONFIG";
 import {AngularFireDatabaseModule} from "angularfire2/database";
 import {FormsModule,ReactiveFormsModule} from "@angular/forms";
+import {QuizService} from "./services/quiz.service";
+import { ProfQuizsComponent } from './prof-quizs/prof-quizs.component';
 
 
 
 const  appRoutes : Routes = [
-  {path:'professeur',
-  component: ProfComponent},
-  {path:'etudiant',
-  component: EtudiantComponent},
-  {path:'',
-  component:ConnexionComponent}
-]
+  {path:'professeur',  component: ProfComponent},
+  {path:'etudiant', component: EtudiantComponent},
+  {path:'', component:ConnexionComponent},
+  {path:'myquizs',component:ProfQuizsComponent}
+
+  ]
 
 @NgModule({
   declarations: [
     AppComponent,
     ProfComponent,
     EtudiantComponent,
-    ConnexionComponent
+    ConnexionComponent,
+    ProfQuizsComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -37,9 +40,10 @@ const  appRoutes : Routes = [
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireDatabaseModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
   ],
-  providers: [],
+  providers: [QuizService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
