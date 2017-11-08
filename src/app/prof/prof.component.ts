@@ -19,7 +19,7 @@ constructor(private db: AngularFireDatabase,private fb: FormBuilder,private quiz
 }
 
   ngOnInit() {
-    this.quizService.getData()
+    // this.quizService.getData()
   }
 
   addQuiz(){

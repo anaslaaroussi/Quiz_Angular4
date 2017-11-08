@@ -1,10 +1,25 @@
 <h1>Test Countdown</h1>
 <p id="count"></p>
-<button (click)="countDown(10)">Activer le countDown</button>
 <input type="text" id="input1">
 <input type="text" id="input2">
-{{timeout}}
+
+QuizID :<input type="text" [(ngModel)]="quizId">
+<button (click)="getQuizs(quizId)">Test me  </button>
+<!--<div *ngFor="let d of data">-->
+<!--{{d }}-->
+<!--</div>-->
+
+<div *ngIf="data !== undefined">
 
 
 
+  <p>Les question {{idQuestion}} est : {{data[quizId][idQuestion]}} </p>
+  <input type="text" #res>
+  <p> Les reponse {{idQuestion}} est  : {{data[quizId][idQuestion]}}</p>
 
+  <button (click)="nextQuestion(idQuestion,quizId,res.value)">Next Question</button>
+  <button (click)="countDown(5,idQuestion,quizId,res.value)">Activer le countDown</button>
+  {{test}}
+  {{timeout}}
+  <h3>{{globalNote}}</h3>
+</div>

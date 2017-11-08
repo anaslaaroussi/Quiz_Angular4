@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {TimerObservable} from "rxjs/observable/TimerObservable";
 import {Subscription} from "rxjs/Subscription";
+import {QuizService} from "../services/quiz.service";
 
 
 
@@ -12,28 +13,23 @@ import {Subscription} from "rxjs/Subscription";
   styleUrls: ['./etudiant.component.css']
 })
 export class EtudiantComponent implements OnInit {
-timeout : number ;
+test : boolean = false;
+
+  timeout : number ;
 id: number = 1;
-
+quizId :number;
+data : any;
   subscription: Subscription;
-
-  constructor() { }
+idQuestion : number = 0
+  response : Array<any> = [];
+globalNote : number = 0;
+  constructor(private quizService : QuizService) { }
 
   ngOnInit() {
   }
 
 
-  countDown(timeout){
-//    this.test = timeout
-//     this.test --;
-//     let time = timeout*1000
-//     let element = document.getElementById('count');
-//     element.innerHTML = `Il vous reste ${timeout} sec`;
-//
-//     if(timeout > 0){
-//       let timer= setTimeout('this.countDown(this.test)',1000)
-//     }
-// console.log('sa')
+  countDown(timeout,idQuestion: number,idQuiz:number, reponse : any){
     let timer = TimerObservable.create(0, 1000);
 
 
@@ -44,9 +40,15 @@ id: number = 1;
           this.timeout = timeout - t;
           if(this.timeout < 1){
             this.subscription.unsubscribe()
+            this.timeout = timeout
+
             console.log('Le temps est fini')
-            document.getElementById(`input${this.id}`).setAttribute('disabled','this.disable')
-            this.id++;
+            // document.getElementById(`input${this.id}`).setAttribute('disabled','this.disable')
+            // this.id++;
+
+            // this.countDown(timeout,idQuestion,idQuiz,reponse);
+            this.nextQuestion(idQuestion,idQuiz,reponse);
+
           }
 
 
@@ -56,5 +58,60 @@ id: number = 1;
 
 
 
-}}
+}
+
+
+
+getQuizs(id){
+
+     let test =   this.quizService.getData(id)
+  if(test !== undefined){
+    this.data =  test
+console.log(typeof(this.data))
+     }
+
+
+
+
+      // this.data = JSON.stringify(data);
+      // console.log(this.data)
+
+}
+
+
+  nextQuestion(idQuestion: number,idQuiz:number, reponse : any){
+
+
+      let reponses = this.quizService.getData(idQuiz)[1];
+
+      this.response.push(reponse);
+      if(reponse == reponses[idQuestion] ){ this.globalNote += 2
+        this.test = true
+        console.log('goo')
+
+      }
+
+
+
+      else {
+        console.log('reponse incorrect');
+        this.test = false
+      }
+
+    console.log(`Votre reponse : ${reponse}     !! La reponse correct ${reponses[idQuestion]}`)
+
+
+
+
+    this.idQuestion = idQuestion + 1;
+
+  }
+
+
+  CalculNote(){
+
+  }
+
+
+}
 

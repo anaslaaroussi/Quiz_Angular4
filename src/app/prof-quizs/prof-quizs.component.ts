@@ -11,7 +11,7 @@ export class ProfQuizsComponent implements OnInit {
   constructor(private quizService:QuizService) { }
 
   ngOnInit() {
-    this.quizService.getData()
+
   }
 
 
