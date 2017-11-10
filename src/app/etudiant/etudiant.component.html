@@ -12,14 +12,19 @@ QuizID :<input type="text" [(ngModel)]="quizId">
 <div *ngIf="data !== undefined">
 
 
-
-  <p>Les question {{idQuestion}} est : {{data[quizId][idQuestion]}} </p>
-  <input type="text" #res>
-  <p> Les reponse {{idQuestion}} est  : {{data[quizId][idQuestion]}}</p>
-
-  <button (click)="nextQuestion(idQuestion,quizId,res.value)">Next Question</button>
-  <button (click)="countDown(5,idQuestion,quizId,res.value)">Activer le countDown</button>
+<div *ngIf="showQuestions">
+  <p>La question {{idQuestion + 1}} est : {{data[quizId][idQuestion]}} </p>
+  <input type="text" [(ngModel)]="res"  >
+  <p> La reponse {{idQuestion + 1}} est  : {{data[quizId][idQuestion]}}</p>
+  <button (click)="nextQuestion(idQuestion,quizId,res)">Next Question</button>
+  <button (click)="countDown(5,idQuestion)">Activer le countDown</button>
   {{test}}
   {{timeout}}
+
+</div>
+
+
+
+  <h2>Votre score est : </h2>
   <h3>{{globalNote}}</h3>
 </div>
