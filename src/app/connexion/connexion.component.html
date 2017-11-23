@@ -1,4 +1,13 @@
+
+
 <h1>Quel est votre fonction </h1>
+
+
+<input type="text" #email >
+<input type="text" #password >
+<button (click)="login(email.value,password.value)"> login</button>
+
+
 
 <button  routerLink="/professeur">Professeur</button>
 <button routerLink="/etudiant">Etudiant</button>

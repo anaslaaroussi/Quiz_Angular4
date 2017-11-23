@@ -1,8 +1,10 @@
 export const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDeJ993iiHRGmqfKgUsca-6g5Br6Gi-qRY",
-  authDomain: "quiz-projetc.firebaseapp.com",
-  databaseURL: "https://quiz-projetc.firebaseio.com",
-  projectId: "quiz-projetc",
-  storageBucket: "quiz-projetc.appspot.com",
-  messagingSenderId: "791177536496"
+  apiKey: "AIzaSyDZggmVhUAytM0gdYgEplAMDX1dQTZr_xo",
+  authDomain: "quiz-ine3.firebaseapp.com",
+  databaseURL: "https://quiz-ine3.firebaseio.com",
+  projectId: "quiz-ine3",
+  storageBucket: "quiz-ine3.appspot.com",
+  messagingSenderId: "704670223296"
 }
+
+
