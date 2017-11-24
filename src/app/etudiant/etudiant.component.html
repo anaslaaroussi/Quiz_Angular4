@@ -1,25 +1,51 @@
 <h1>Test Countdown</h1>
-<p id="count"></p>
-<input type="text" id="input1">
-<input type="text" id="input2">
 
-QuizID :<input type="text" [(ngModel)]="quizId">
-<button (click)="getQuizs(quizId)">Test me  </button>
+
+
+<FORM>
+  <SELECT name="nom" size="1" #selectElem>
+    <OPTION *ngFor="let c of categorie" >{{c}}</OPTION>
+  </SELECT>
+
+</FORM>
+<button (click)="selectQuizByCategorie(selectElem.value)">Test</button>
+
+
+
+<!--<button   (click)="runTest(i)">Quiz{{i}}</button>-->
+
+
+
+
+
+
+
+<!--<p id="count"></p>-->
+<!--<input type="text" id="input1">-->
+<!--<input type="text" id="input2">-->
+
+<!--QuizID :<input type="text" [(ngModel)]="quizId">-->
+<button *ngFor="let i of compteur " (click)="getQuizs(i-1)">Quiz {{i}}</button>
 <!--<div *ngFor="let d of data">-->
 <!--{{d }}-->
 <!--</div>-->
 
+
+
+
 <div *ngIf="data !== undefined">
 
 
-<div *ngIf="showQuestions">
-  <p>La question {{idQuestion + 1}} est : {{data[quizId][idQuestion]}} </p>
+  <div *ngIf="showQuestions">
+  <p>La question {{idQuestion + 1}} est : {{data[0][idQuestion]}} </p>
   <input type="text" [(ngModel)]="res"  >
-  <p> La reponse {{idQuestion + 1}} est  : {{data[quizId][idQuestion]}}</p>
+  <p> La reponse {{idQuestion + 1}} est  : {{data[1][idQuestion]}}</p>
   <button (click)="nextQuestion(idQuestion,quizId,res)">Next Question</button>
   <button (click)="countDown(5,idQuestion)">Activer le countDown</button>
   {{test}}
   {{timeout}}
+
+  <p>THis is a tesst {{data}}</p>
 
 </div>
 
@@ -28,3 +54,6 @@ QuizID :<input type="text" [(ngModel)]="quizId">
   <h2>Votre score est : </h2>
   <h3>{{globalNote}}</h3>
 </div>
+
+
+

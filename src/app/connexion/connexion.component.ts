@@ -16,12 +16,6 @@ export class ConnexionComponent implements OnInit {
   }
 
 
-  profAccess(){
-
-
-  }
-
-  etuAccess(){}
 
 
 

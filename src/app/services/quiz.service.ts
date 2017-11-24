@@ -41,8 +41,8 @@ export class QuizService{
     answer7:quiz.answer7,
     answer8:quiz.answer8,
     answer9:quiz.answer9,
-    answer10:quiz.answer10,
-
+    answer10:quiz.answer10
+  //ssss
 
   })
   }

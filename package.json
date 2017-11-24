@@ -25,6 +25,7 @@
     "core-js": "^2.4.1",
     "countdown": "^2.6.0",
     "firebase": "^4.5.2",
+    "lodash": "^4.17.4",
     "moment": "^2.19.1",
     "moment-countdown": "0.0.3",
     "rxjs": "^5.4.2",

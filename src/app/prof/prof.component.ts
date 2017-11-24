@@ -41,23 +41,23 @@ this.show = !this.show;
         input.value = ''
   }
 
-   disableInput(id){
-
-    this.disable = !this.disable
-
-
-    if(this.disable== true){
-  let test1 = document.getElementById(`question${id}`).setAttribute('disabled','this.disable')
-  let test2 = document.getElementById(`answer${id}`).setAttribute('disabled','this.disable')
-}
-
-if(this.disable == false){
-  let test1 = document.getElementById(`question${id}`).removeAttribute('disabled')
-  let test2 = document.getElementById(`answer${id}`).removeAttribute('disabled')
-
-}
-
-  }
+//    disableInput(id){
+//
+//     this.disable = !this.disable
+//
+//
+//     if(this.disable== true){
+//   let test1 = document.getElementById(`question${id}`).setAttribute('disabled','this.disable')
+//   let test2 = document.getElementById(`answer${id}`).setAttribute('disabled','this.disable')
+// }
+//
+// if(this.disable == false){
+//   let test1 = document.getElementById(`question${id}`).removeAttribute('disabled')
+//   let test2 = document.getElementById(`answer${id}`).removeAttribute('disabled')
+//
+// }
+//
+//   }
 
 
 

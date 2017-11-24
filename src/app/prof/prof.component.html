@@ -18,15 +18,15 @@
   </label>
 
 
-  <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">
+  <div *ngFor="let i of [0,1,2,3,4,5,6,7,8,9]">
 
     <label>
-      question {{i}}:
-      <input type="text" name="question{{i}}" id="question{{i}}"  ngModel>
+      question {{i+1}}:
+      <input type="text" name="question{{i+1}}" id="question{{i + 1}}"  ngModel>
     </label>
-    <label >answer {{i}} :
-      <input type="text" name="answer{{i}}"    id="answer{{i}}"   ngModel></label>
-    <button (click)="disableInput(i)">Valider</button>
+    <label >answer {{i+1}} :
+      <input type="text" name="answer{{i+1}}"    id="answer{{i+ 1}}"   ngModel></label>
+    <!--<button (click)="disableInput(i)">Valider</button>-->
 
   </div>
 
