@@ -4,33 +4,18 @@ import {Quiz} from "../models/quiz";
 
 @Injectable()
 export class QuizService{
-
+  datatest2 : Array<any> = []
   quizList :  any ;
   data =<any>{};
   dataSend : any ;
   dataQuestions : any ;
   dataAnswers : any ;
+  dataCategorie : any;
+  datatest : any[] ;
+
   constructor(private firebase : AngularFireDatabase){}
 
-getData(id:number){
-// this.quizList = this.firebase.list('quizs')
-try{
-  let quizRef = this.firebase.list('quizs')
-  quizRef.valueChanges().map( res => res[id])
-    .subscribe(res=> {this.data = res;
-    let q = this.data;
-    this.dataQuestions = [q.question1,q.question2,q.question3,q.question4,q.question5,q.question6,q.question7,q.question8,q.question9,q.question10]
-    this.dataAnswers = [q.answer1,q.answer2,q.answer3,q.answer4,q.answer5,q.answer6,q.answer7,q.answer8,q.answer9,q.answer10];
 
-    this.dataSend = [this.dataQuestions,this.dataAnswers]
-
-    });
-
-}
-catch(e){console.log(e)}
-
-return this.dataSend;
-  }
 
   addQuiz(quiz: Quiz){
   console.log(this.quizList + '   '+ typeof(this.quizList))
@@ -61,6 +46,25 @@ return this.dataSend;
 
   })
   }
+
+
+
+
+  getDataCategorie(categorie: string){
+
+    let quizRef = this.firebase.list('quizs')
+
+    return quizRef
+
+
+
+
+
+
+
+  }
+
+
 
 
 
