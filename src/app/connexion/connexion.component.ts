@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from "../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-connexion',
@@ -7,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConnexionComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService
+  ) { }
 
   ngOnInit() {
   }
@@ -20,5 +23,13 @@ export class ConnexionComponent implements OnInit {
 
   etuAccess(){}
 
+
+
+
+  login(email: string,password: string) {
+    this.authService.login(email,password)
+
+    // console.log(email)
+  }
 
 }

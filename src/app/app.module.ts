@@ -15,6 +15,8 @@ import {FormsModule,ReactiveFormsModule} from "@angular/forms";
 import {QuizService} from "./services/quiz.service";
 import { ProfQuizsComponent } from './prof-quizs/prof-quizs.component';
 import {Observable} from "rxjs/Observable";
+import {AuthService} from "./services/auth.service";
+import {AngularFireAuthModule} from "angularfire2/auth";
 
 
 
@@ -40,11 +42,12 @@ const  appRoutes : Routes = [
     RouterModule.forRoot(appRoutes),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireDatabaseModule,
+    AngularFireAuthModule,
     FormsModule,
     ReactiveFormsModule,
 
   ],
-  providers: [QuizService],
+  providers: [QuizService,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
