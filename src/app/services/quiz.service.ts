@@ -22,6 +22,7 @@ export class QuizService{
     this.quizList = this.firebase.list('quizs')
     this.quizList.push({
     categorie : quiz.categorie,
+      quizTitle : quiz.title,
     question1:quiz.question1,
     question2:quiz.question2,
     question3:quiz.question3,

@@ -9,15 +9,25 @@ import {Router} from "@angular/router";
 })
 export class AppComponent {
 
+
+  isLoggedIn:boolean;
   constructor(public authService: AuthService,
-              private Router: Router) {}
+              private Router: Router,
 
+  ) {
 
+    this.authService.logEvent.subscribe(
+      (res) => {
+        this.isLoggedIn = true;
+      }
+    )
+  }
 
 
   logout() {
     this.authService.logout()
-      this.Router.navigate(["/"])
+      this.Router.navigate(["/"]);
+    this.isLoggedIn = false
   }
 
 

@@ -23,7 +23,7 @@ export interface Quiz {
   answer8?: string;
   answer9?: string;
   answer10?: string;
-
+  title?: string
 
 }
 

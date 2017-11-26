@@ -1,5 +1,5 @@
 
-<button (click)="logout()" > logout </button>
+<button (click)="logout()" *ngIf="isLoggedIn" > logout </button>
 
 
 

@@ -3,6 +3,9 @@ import {TimerObservable} from "rxjs/observable/TimerObservable";
 import {Subscription} from "rxjs/Subscription";
 import {QuizService} from "../services/quiz.service";
 import * as _ from "lodash";
+import {AngularFireAuth} from "angularfire2/auth";
+import {AngularFireDatabase} from "angularfire2/database";
+import {Observable} from "rxjs/Observable";
 
 
 
@@ -13,6 +16,7 @@ import * as _ from "lodash";
 })
 export class EtudiantComponent implements OnInit {
 
+  quiz: any;
   dataSend : Array<any> = []
 quizByCategorie : Array<any> = []
 compteur : Array<number> = []  ;
@@ -26,11 +30,24 @@ idQuestion : number = 0
   response : Array<any> = [];
 globalNote : number = 0;
 res : any;
+userUID: string;
+// userAccount: any;
 
 showQuestions : boolean = true
   categorie : any = ['MATH1','MATH2'];
-  constructor(private quizService : QuizService) {
+  constructor(private quizService : QuizService,
+              private afAuth: AngularFireAuth,
+              private db: AngularFireDatabase
 
+  ) {
+    this.afAuth.authState.subscribe(
+      (res) => { console.log(res.uid)
+            this.userUID = res.uid;
+
+
+
+      }
+    )
 
   }
 
@@ -39,6 +56,11 @@ showQuestions : boolean = true
 
 
   countDown(timeout,idQuestion: number){
+    // this.db.object('users/'+this.userUID+'/'+Date.now())
+    //   .set( {
+    //         quiz title : this.
+    //   })
+
     let timer = TimerObservable.create(0, 1000);
 
       this.subscription = timer.subscribe(t => {
@@ -54,7 +76,6 @@ showQuestions : boolean = true
 
             this.countDown(timeout,this.idQuestion)
             this.nextQuestion(this.idQuestion,this.quizId,this.res)
-
 
 
           }
@@ -99,7 +120,9 @@ getQuizs(id: number){
       this.response.push(reponse);
 
       if(reponse == reponses[idQuestion] ){ this.globalNote += 2
-        this.test = true
+        this.test = true;
+
+
         console.log('goo')
 
       }
@@ -119,11 +142,11 @@ console.log(this.idQuestion)
 selectQuizByCategorie(selectedElem: string) {
  this.compteur = [];
  this.dataSend = []
-  let val = this.quizService.getDataCategorie(selectedElem);
+  this.quiz = this.quizService.getDataCategorie(selectedElem);
 
 
 
-  val.valueChanges().subscribe((res)=>  {
+  this.quiz.valueChanges().subscribe((res)=>  {
 
     this.quizByCategorie = _.filter(res,(res)=>{  return res.categorie == selectedElem})
 console.log(this.quizByCategorie)
