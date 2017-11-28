@@ -20,20 +20,10 @@ export class AppComponent {
 
     this.authService.logEvent
       .subscribe(
-      (res) => {
+      (uid) => {
         this.isLoggedIn = true;
 
-        console.log(res)
-
-
-        this.db.object('users/'+res.uid).valueChanges()
-          .subscribe( res => {
-
-              this.currentUser = res
-            }
-            , error => { console.log(error)}
-
-                    )
+        console.log(uid)
 
       },
         error => { console.log(error)}
