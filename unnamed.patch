@@ -1,0 +1,256 @@
+Index: src/app/models/FIREBASE_CONFIG.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/models/FIREBASE_CONFIG.ts	(revision 211eff5ad0437188740c20845244fe9cb712825f)
++++ src/app/models/FIREBASE_CONFIG.ts	(revision )
+@@ -1,8 +1,10 @@
+ export const FIREBASE_CONFIG = {
+-  apiKey: "AIzaSyDeJ993iiHRGmqfKgUsca-6g5Br6Gi-qRY",
+-  authDomain: "quiz-projetc.firebaseapp.com",
+-  databaseURL: "https://quiz-projetc.firebaseio.com",
+-  projectId: "quiz-projetc",
+-  storageBucket: "quiz-projetc.appspot.com",
+-  messagingSenderId: "791177536496"
++  apiKey: "AIzaSyDZggmVhUAytM0gdYgEplAMDX1dQTZr_xo",
++  authDomain: "quiz-ine3.firebaseapp.com",
++  databaseURL: "https://quiz-ine3.firebaseio.com",
++  projectId: "quiz-ine3",
++  storageBucket: "quiz-ine3.appspot.com",
++  messagingSenderId: "704670223296"
+ }
++
++
+Index: src/app/app.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/app.component.html	(revision 211eff5ad0437188740c20845244fe9cb712825f)
++++ src/app/app.component.html	(revision )
+@@ -1,5 +1,5 @@
+ 
+-
++<button (click)="logout()" > logout </button>
+ 
+ 
+ 
+Index: src/app/app.module.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/app.module.ts	(revision 211eff5ad0437188740c20845244fe9cb712825f)
++++ src/app/app.module.ts	(revision )
+@@ -15,6 +15,8 @@
+ import {QuizService} from "./services/quiz.service";
+ import { ProfQuizsComponent } from './prof-quizs/prof-quizs.component';
+ import {Observable} from "rxjs/Observable";
++import {AuthService} from "./services/auth.service";
++import {AngularFireAuthModule} from "angularfire2/auth";
+ 
+ 
+ 
+@@ -40,11 +42,12 @@
+     RouterModule.forRoot(appRoutes),
+     AngularFireModule.initializeApp(FIREBASE_CONFIG),
+     AngularFireDatabaseModule,
++    AngularFireAuthModule,
+     FormsModule,
+     ReactiveFormsModule,
+ 
+   ],
+-  providers: [QuizService],
++  providers: [QuizService,AuthService],
+   bootstrap: [AppComponent]
+ })
+ export class AppModule { }
+Index: src/app/services/auth.service.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/services/auth.service.ts	(revision )
++++ src/app/services/auth.service.ts	(revision )
+@@ -0,0 +1,52 @@
++import { Injectable } from '@angular/core';
++import {AngularFireAuth} from "angularfire2/auth";
++import {AngularFireDatabase} from "angularfire2/database";
++import {Router} from "@angular/router";
++
++@Injectable()
++export class AuthService {
++
++  constructor(private afAuth: AngularFireAuth,
++              public db : AngularFireDatabase,
++              public router: Router
++    ) {
++
++
++  }
++
++
++
++
++
++
++  login(email,password) {
++    var that = this
++    this.afAuth.auth.signInWithEmailAndPassword(email,password)
++      .then( function (res) {
++
++        that.db.object('users/'+res.uid).valueChanges()
++          .subscribe(res => {
++
++            let res2 = <any>res
++            if (res2.type == "teacher") {
++              that.router.navigate(["/professeur"])
++
++            }
++            else if (res2.type == "student") {
++              that.router.navigate(["/etudiant"])
++
++            }
++
++          })
++
++      })
++      .catch(function (err) {
++        console.log(err.message)
++      })
++  }
++
++  logout() {
++    this.afAuth.auth.signOut()
++      .then(() => { console.log("logged out ! ")})
++  }
++}
+Index: package-lock.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- package-lock.json	(revision 211eff5ad0437188740c20845244fe9cb712825f)
++++ package-lock.json	(revision )
+@@ -7430,15 +7430,6 @@
+       "integrity": "sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=",
+       "dev": true
+     },
+-    "string_decoder": {
+-      "version": "1.0.3",
+-      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.3.tgz",
+-      "integrity": "sha512-4AH6Z5fzNNBcH+6XDMfA/BTt87skxqJlO0lAh3Dker5zThcAxG6mKz+iGu308UKoPPQ8Dcqx/4JhujzltRa+hQ==",
+-      "dev": true,
+-      "requires": {
+-        "safe-buffer": "5.1.1"
+-      }
+-    },
+     "string-width": {
+       "version": "1.0.2",
+       "resolved": "https://registry.npmjs.org/string-width/-/string-width-1.0.2.tgz",
+@@ -7450,6 +7441,15 @@
+         "strip-ansi": "3.0.1"
+       }
+     },
++    "string_decoder": {
++      "version": "1.0.3",
++      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.0.3.tgz",
++      "integrity": "sha512-4AH6Z5fzNNBcH+6XDMfA/BTt87skxqJlO0lAh3Dker5zThcAxG6mKz+iGu308UKoPPQ8Dcqx/4JhujzltRa+hQ==",
++      "dev": true,
++      "requires": {
++        "safe-buffer": "5.1.1"
++      }
++    },
+     "stringstream": {
+       "version": "0.0.5",
+       "resolved": "https://registry.npmjs.org/stringstream/-/stringstream-0.0.5.tgz",
+Index: src/app/connexion/connexion.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/connexion/connexion.component.ts	(revision 211eff5ad0437188740c20845244fe9cb712825f)
++++ src/app/connexion/connexion.component.ts	(revision )
+@@ -1,4 +1,6 @@
+ import { Component, OnInit } from '@angular/core';
++import {AuthService} from "../services/auth.service";
++import {Router} from "@angular/router";
+ 
+ @Component({
+   selector: 'app-connexion',
+@@ -7,7 +9,8 @@
+ })
+ export class ConnexionComponent implements OnInit {
+ 
+-  constructor() { }
++  constructor(private authService: AuthService
++  ) { }
+ 
+   ngOnInit() {
+   }
+@@ -21,4 +24,12 @@
+   etuAccess(){}
+ 
+ 
++
++
++  login(email: string,password: string) {
++    this.authService.login(email,password)
++
++    // console.log(email)
++  }
++
+ }
+Index: src/app/connexion/connexion.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/connexion/connexion.component.html	(revision 211eff5ad0437188740c20845244fe9cb712825f)
++++ src/app/connexion/connexion.component.html	(revision )
+@@ -1,4 +1,13 @@
++
++
+ <h1>Quel est votre fonction </h1>
+ 
++
++<input type="text" #email >
++<input type="text" #password >
++<button (click)="login(email.value,password.value)"> login</button>
++
++
++
+ <button  routerLink="/professeur">Professeur</button>
+ <button routerLink="/etudiant">Etudiant</button>
+Index: src/app/app.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/app.component.ts	(revision 211eff5ad0437188740c20845244fe9cb712825f)
++++ src/app/app.component.ts	(revision )
+@@ -1,4 +1,6 @@
+ import { Component } from '@angular/core';
++import {AuthService} from "./services/auth.service";
++import {Router} from "@angular/router";
+ 
+ @Component({
+   selector: 'app-root',
+@@ -7,8 +9,16 @@
+ })
+ export class AppComponent {
+ 
++  constructor(public authService: AuthService,
++              private Router: Router) {}
+ 
+ 
++
++
++  logout() {
++    this.authService.logout()
++      this.Router.navigate(["/"])
++  }
+ 
+ 
+ 
