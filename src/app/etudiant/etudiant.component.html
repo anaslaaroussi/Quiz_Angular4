@@ -2,6 +2,12 @@
 
 
 
+<div>
+  <h3 > {{ log | date}} -- {{ log| date:'shortTime' }}</h3>
+</div>
+
+
+
 <FORM>
   <SELECT name="nom" size="1" #selectElem>
     <OPTION *ngFor="let c of categorie" >{{c}}</OPTION>

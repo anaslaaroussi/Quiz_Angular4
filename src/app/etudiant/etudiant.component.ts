@@ -31,6 +31,8 @@ idQuestion : number = 0
 globalNote : number = 0;
 res : any;
 userUID: string;
+logs;
+log;
 // userAccount: any;
 
 showQuestions : boolean = true
@@ -40,9 +42,20 @@ showQuestions : boolean = true
               private db: AngularFireDatabase
 
   ) {
-    this.afAuth.authState.subscribe(
+
+    this.afAuth.authState.
+
+    subscribe(
       (res) => { console.log(res.uid)
             this.userUID = res.uid;
+          this.db.list('users/'+res.uid+'/Logs').valueChanges().subscribe(
+
+            res => { this.logs = res
+                    this.log = this.logs[this.logs.length-1].log
+            console.log(res)
+
+            }
+          );
 
 
 

@@ -4,10 +4,10 @@ import {AngularFireDatabase} from "angularfire2/database";
 import {Router} from "@angular/router";
 import {Subject} from "rxjs/Subject";
 
+
 @Injectable()
 export class AuthService {
-
-  logEvent: Subject<any> = new Subject<any>();
+   logEvent: Subject<any> = new Subject<any>();
   UID: any;
 
   constructor(private afAuth: AngularFireAuth,
@@ -25,29 +25,36 @@ export class AuthService {
 
   login(email,password) {
     var that = this
+    var executed = false
     this.afAuth.auth.signInWithEmailAndPassword(email,password)
       .then( function (res) {
 
         let UID = res.uid
-        that.db.object('users/'+res.uid).valueChanges()
+        var Observable = that.db.object('users/'+res.uid).valueChanges()
 
-          .subscribe(res => {
-             let res3 = <any>res
-            let lastLogs = [res3.Logs[1],Date.now()];
+          Observable
+            .subscribe(res => {
+          if (!executed) {
 
 
-            that.db.object('users/'+res3.uid+'/Logs').set({ Logs : lastLogs})
 
+            that.db.list('users/'+UID+'/Logs').push({ log : Date.now()})
+            console.log(Date.now())
+            executed = true
 
             let res2 = <any>res
             if (res2.type == "teacher") {
               that.router.navigate(["/professeur"])
-
             }
             else if (res2.type == "student") {
               that.router.navigate(["/etudiant"])
 
             }
+
+
+
+
+          }
 
           })
 
