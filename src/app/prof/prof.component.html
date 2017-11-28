@@ -21,13 +21,16 @@
 
 
   <div *ngFor="let i of [0,1,2,3,4,5,6,7,8,9]">
-
+<!--as-->
     <label>
       question {{i+1}}:
-      <input type="text" name="question{{i+1}}" id="question{{i + 1}}"  ngModel>
+      <input type="text" name="question{{i+1}}" id="question{{i+1}}"  ngModel>
     </label>
     <label >answer {{i+1}} :
-      <input type="text" name="answer{{i+1}}"    id="answer{{i+ 1}}"   ngModel></label>
+      <input type="radio" name="answer{{i+1}}" value="true" ngModel> True
+      <input type="radio" name="answer{{i+1}}" value="false" ngModel> False
+
+    </label>
     <!--<button (click)="disableInput(i)">Valider</button>-->
 
   </div>
