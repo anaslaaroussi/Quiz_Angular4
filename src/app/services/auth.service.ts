@@ -26,10 +26,12 @@ export class AuthService {
   login(email,password) {
     var that = this
     var executed = false
+
     this.afAuth.auth.signInWithEmailAndPassword(email,password)
       .then( function (res) {
 
         let UID = res.uid
+        that.logEvent.next(res.uid);
         var Observable = that.db.object('users/'+res.uid).valueChanges()
 
           Observable

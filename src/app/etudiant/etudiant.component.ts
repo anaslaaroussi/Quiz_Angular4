@@ -14,6 +14,7 @@ import {Observable} from "rxjs/Observable";
   templateUrl: './etudiant.component.html',
   styleUrls: ['./etudiant.component.css']
 })
+
 export class EtudiantComponent implements OnInit {
 dateNow : any ;
   quiz: any;
@@ -45,17 +46,21 @@ showQuestions : boolean = true
 
     this.afAuth.authState
       .subscribe(
-      (res) => { console.log(res.uid)
-            this.userUID = res.uid;
+      (res) => {
+
+        if (res) {
+          console.log(res.uid)
+          this.userUID = res.uid;
           this.db.list('users/'+res.uid+'/Logs').valueChanges().subscribe(
 
             res => { this.logs = res
-                    this.log = this.logs[this.logs.length-1].log
-            console.log(res)
+              this.log = this.logs[this.logs.length-1].log
+              console.log(res)
 
             }
           );
 
+        }
 
 
       }
