@@ -7,7 +7,8 @@ import {Subject} from "rxjs/Subject";
 @Injectable()
 export class AuthService {
 
-  logEvent: Subject<any> = new Subject<any>()
+  logEvent: Subject<any> = new Subject<any>();
+  UID: any;
 
   constructor(private afAuth: AngularFireAuth,
               public db : AngularFireDatabase,
@@ -27,10 +28,17 @@ export class AuthService {
     this.afAuth.auth.signInWithEmailAndPassword(email,password)
       .then( function (res) {
 
+        let UID = res.uid
         that.db.object('users/'+res.uid).valueChanges()
-          .subscribe(res => {
 
-            that.logEvent.next();
+          .subscribe(res => {
+             let res3 = <any>res
+            let lastLogs = [res3.Logs[1],Date.now()];
+
+
+            that.db.object('users/'+res3.uid+'/Logs').set({ Logs : lastLogs})
+
+
             let res2 = <any>res
             if (res2.type == "teacher") {
               that.router.navigate(["/professeur"])
