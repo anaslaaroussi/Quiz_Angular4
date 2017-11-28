@@ -43,13 +43,18 @@
 
 <div *ngIf="data !== undefined">
 
-
   <div *ngIf="showQuestions">
   <p>La question {{idQuestion + 1}} est : {{data[0][idQuestion]}} </p>
-  <input type="text" [(ngModel)]="res"  >
+    <form >
+
+      <input type="radio" name="answer"  id="true" value="true" checked #res1 > True <br>
+      <input type="radio" name="answer" id="false" value="false" #res2 > False
+
+    </form>
+
   <p> La reponse {{idQuestion + 1}} est  : {{data[1][idQuestion]}}</p>
   <button (click)="nextQuestion(idQuestion,quizId,res)">Next Question</button>
-  <button (click)="countDown(5,idQuestion)">Activer le countDown</button>
+  <button (click)="countDown(5,idQuestion)" >Activer le countDown</button>
   {{test}}
   {{timeout}}
 
