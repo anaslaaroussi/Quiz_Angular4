@@ -43,9 +43,8 @@ showQuestions : boolean = true
 
   ) {
 
-    this.afAuth.authState.
-
-    subscribe(
+    this.afAuth.authState
+      .subscribe(
       (res) => { console.log(res.uid)
             this.userUID = res.uid;
           this.db.list('users/'+res.uid+'/Logs').valueChanges().subscribe(
