@@ -15,7 +15,7 @@ import {Observable} from "rxjs/Observable";
   styleUrls: ['./etudiant.component.css']
 })
 export class EtudiantComponent implements OnInit {
-
+dateNow : any ;
   quiz: any;
   dataSend : Array<any> = []
 quizByCategorie : Array<any> = []
@@ -56,10 +56,6 @@ showQuestions : boolean = true
 
 
   countDown(timeout,idQuestion: number){
-    // this.db.object('users/'+this.userUID+'/'+Date.now())
-    //   .set( {
-    //         quiz title : this.
-    //   })
 
     let timer = TimerObservable.create(0, 1000);
 
@@ -85,8 +81,8 @@ showQuestions : boolean = true
         if( this.idQuestion >= 10 )     {
           this.showQuestions = false;
           this.subscription.unsubscribe()
-          console.log(`Temps fini les reponse sont : ${this.response}`)
-          console.log("done done done ")
+          console.log(`Temps fini les reponse sont : ${this.response}`);
+          console.log("done done done ");
         }
 
       })
@@ -95,12 +91,20 @@ showQuestions : boolean = true
 
 
 getQuizs(id: number){
-
+    this.dateNow = Date.now()
     this.data= [];
     this.quizId = id
      // let test = this.quizService.getData(id)
   if(this.dataSend !== undefined){
     this.data =  this.dataSend[id]
+
+    console.log(this.data[3])
+     this.db.object('users/'+this.userUID+'/'+this.dateNow)
+       .set( {
+              quiztitle : this.data[3]
+       })
+
+
 
   }
 }
@@ -108,6 +112,13 @@ getQuizs(id: number){
 
   nextQuestion(idQuestion: number,idQuiz:number, reponse : any){
 
+    let object = {}
+    object[idQuestion] = reponse
+
+    this.db.list('users/'+this.userUID+'/'+this.dateNow+"/responses")
+   .push(object)
+
+    object = {}
 
     this.subscription.unsubscribe();
     this.countDown(5,idQuestion)
@@ -160,8 +171,8 @@ console.log(this.quizByCategorie)
     let dataQuestions = [q.question1,q.question2,q.question3,q.question4,q.question5,q.question6,q.question7,q.question8,q.question9,q.question10]
     let dataAnswers = [q.answer1,q.answer2,q.answer3,q.answer4,q.answer5,q.answer6,q.answer7,q.answer8,q.answer9,q.answer10];
     let dataCategorie = q.categorie;
-
-    this.dataSend.push([dataQuestions,dataAnswers,dataCategorie])
+    let dataTitle = q.title
+    this.dataSend.push([dataQuestions,dataAnswers,dataCategorie,dataTitle])
 
     this.compteur.push(i);
 
