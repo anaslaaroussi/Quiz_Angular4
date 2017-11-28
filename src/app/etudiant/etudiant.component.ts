@@ -34,6 +34,7 @@ res : any;
 userUID: string;
 logs;
 log;
+userName
 // userAccount: any;
 
 showQuestions : boolean = true
@@ -63,7 +64,15 @@ showQuestions : boolean = true
         }
 
 
+        this.db.object('users/'+res.uid).valueChanges()
+          .subscribe( (res) => { console.log(res)
+            let res1 = <any>res;
+            this.userName = res1.username
+          } )
+
       }
+
+
     )
 
   }
@@ -116,7 +125,7 @@ getQuizs(id: number){
     this.data =  this.dataSend[id]
 
 
-     this.db.object('users/'+this.userUID+'/'+this.dateNow)
+     this.db.object('users/'+this.userUID+'/exams/'+this.dateNow)
        .set( {
               quiztitle : this.dataSend[0][3]
 
