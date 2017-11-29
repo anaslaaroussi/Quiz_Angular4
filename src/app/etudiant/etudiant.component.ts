@@ -6,6 +6,7 @@ import * as _ from "lodash";
 import {AngularFireAuth} from "angularfire2/auth";
 import {AngularFireDatabase} from "angularfire2/database";
 import {Observable} from "rxjs/Observable";
+import * as firebase from "firebase";
 
 
 
@@ -16,19 +17,22 @@ import {Observable} from "rxjs/Observable";
 })
 
 export class EtudiantComponent implements OnInit {
+
+  showExams : boolean = false;
+  exams : any = [];
+arrayOfResponse : any = [];
 dateNow : any ;
-  quiz: any;
-  dataSend : Array<any> = []
+quiz: any;
+dataSend : Array<any> = []
 quizByCategorie : Array<any> = []
 compteur : Array<number> = []  ;
 test : boolean = false;
 timeout : number ;
-
 quizId :number;
 data : any;
 subscription: Subscription;
-idQuestion : number = 0
-  response : Array<any> = [];
+idQuestion : number = 0;
+response : Array<any> = [];
 globalNote : number = 0;
 res : any;
 userUID: string;
@@ -44,7 +48,7 @@ showQuestions : boolean = true
               private db: AngularFireDatabase
 
   ) {
-
+this.arrayOfResponse = []
     this.afAuth.authState
       .subscribe(
       (res) => {
@@ -102,13 +106,46 @@ showQuestions : boolean = true
 
           }
 
-
+        //re
 
         if( this.idQuestion >= 10 )     {
           this.showQuestions = false;
           this.subscription.unsubscribe()
-          console.log(`Temps fini les reponse sont : ${this.response}`);
-          console.log("done done done ");
+          // console.log(`Temps fini les reponse sont : ${this.response}`);
+          // console.log("done done done ");
+          console.log(this.dataSend[0][0])
+
+          console.log(this.arrayOfResponse)
+          this.db.object('users/'+this.userUID+'/exams/'+this.dateNow)
+            .set({quizTitle : this.dataSend[0][3],
+              res1: this.arrayOfResponse[0],
+              res2: this.arrayOfResponse[1],
+              res3: this.arrayOfResponse[2],
+              res4: this.arrayOfResponse[3],
+              res5: this.arrayOfResponse[4],
+              res6: this.arrayOfResponse[5],
+              res7: this.arrayOfResponse[6],
+              res8: this.arrayOfResponse[7],
+              res9: this.arrayOfResponse[8],
+              res10: this.arrayOfResponse[9],
+              quest1: this.dataSend[0][0][0],
+              quest2: this.dataSend[0][0][1],
+              quest3: this.dataSend[0][0][2],
+              quest4: this.dataSend[0][0][3],
+              quest5: this.dataSend[0][0][4],
+              quest6: this.dataSend[0][0][5],
+              quest7: this.dataSend[0][0][6],
+              quest8: this.dataSend[0][0][7],
+              quest9: this.dataSend[0][0][8],
+              quest10: this.dataSend[0][0][9],
+              datePass : this.dateNow
+
+
+
+
+
+
+            })
         }
 
       })
@@ -127,7 +164,7 @@ getQuizs(id: number){
 
      this.db.object('users/'+this.userUID+'/exams/'+this.dateNow)
        .set( {
-              quiztitle : this.dataSend[0][3]
+              quizitle : this.dataSend[0][3]
 
        })
 
@@ -147,6 +184,7 @@ console.log(this.dataSend)
       res = 'true'
     }
 
+
     if(fals){
       res = 'false'
 
@@ -154,18 +192,28 @@ console.log(this.dataSend)
 
     // fin extraction => res est la reponse donne par le user dans check box
 
+// test
 
+
+
+    // fin test
 
 
 
     let object = {}
 
-    object[idQuestion] = res
+    let question = this.dataSend[idQuiz][0][this.idQuestion]
 
-    this.db.list('users/'+this.userUID+'/'+this.dateNow+"/responses")
-   .push(object)
+
+    object[idQuestion] =   res
+
+    this.arrayOfResponse.push(res)
+
+
+
 
     object = {}
+
 
     this.subscription.unsubscribe();
     this.countDown(5,idQuestion)
@@ -174,22 +222,22 @@ console.log(this.dataSend)
 
     let reponses = this.dataSend[idQuiz][1];
 
-    console.log('les reponses : ' + reponses)
+    // console.log('les reponses : ' + reponses)
       this.response.push(res);
 
       if(res == reponses[idQuestion] ){ this.globalNote += 2
         this.test = true;
 
 
-        console.log('goo')
+        // console.log('goo')
 
       }
       else {
-        console.log('reponse incorrect');
+        // console.log('reponse incorrect');
         this.test = false
       }
 
-    console.log(`Votre reponse : ${res}     !! La reponse correct ${reponses[idQuestion]}`)
+    // console.log(`Votre reponse : ${res}     !! La reponse correct ${reponses[idQuestion]}`)
 
     this.idQuestion = idQuestion + 1;
 console.log(this.idQuestion)
@@ -229,7 +277,29 @@ console.log(this.dataSend)
 }})}
 
 
-//sass
+
+
+showMyexams(){
+  this.showExams = true;
+  this.db.object('users/'+this.userUID+'/exams/').valueChanges().subscribe((res)=>
+
+
+  {
+    let temp = [];
+    let exams = []
+    exams.push(res)
+    for (let i in exams[0]){
+
+      temp.push(exams[0][i])
+    }
+
+    this.exams = temp
+
+    console.log(temp)
+  }
+    )
+
+}
 
 
 
