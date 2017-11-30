@@ -29,9 +29,10 @@ this.show = !this.show;
   }
 
 
-  submitQuiz(f : NgForm){
+  submitQuiz(f : NgForm, uuid : any){
      console.log(JSON.stringify(f.value) )
-     this.quizService.addQuiz(f.value)
+
+    this.quizService.addQuiz(f.value)
 
   }
 

@@ -71,3 +71,38 @@
 
 
 
+
+<button (click)="showMyexams()">Show my exams</button>
+<div *ngIf="showExams">
+<div *ngFor="let exam of exams">
+
+  <ul>
+<h1>{{exam.quizTitle}}</h1>
+<p>Passer a : {{ exam.datePass | date}} -- {{ exam.datePass| date:'shortTime' }}</p>
+<h2>Les question </h2>
+    <div *ngFor="let k of [exam.quest1,exam.quest2,exam.quest3,exam.quest4,exam.quest5,exam.quest6,exam.quest7,exam.quest8,exam.quest9,exam.quest10]">
+      <li>{{k}}</li> <br>
+    </div>
+
+
+    <hr>
+    <h2>Les reponses </h2>
+    <div *ngFor="let myRes of [exam.res1,exam.res1,exam.res3,exam.res4,exam.res5,exam.res6,exam.res7,exam.res8,exam.res9,exam.res10] " >
+
+      <li>{{myRes}}</li><br>
+
+    </div>
+
+
+  </ul>
+
+
+
+
+</div>
+
+
+</div>
+
+
+
