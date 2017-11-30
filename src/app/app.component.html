@@ -1,6 +1,21 @@
 
-<button (click)="logout()" *ngIf="isLoggedIn" > logout </button>
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse bg-faded">
+
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <a class="navbar-brand" href="#">Quiz application Angular4 INE3</a>
+
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+  </div>
 
 
+  <form class="form-inline">
+    <button class="btn btn-outline-success my-2 my-sm-0 pull-right" type="submit" (click)="logout()" *ngIf="isLoggedIn">logout</button>
+  </form>
+
+</nav>
 
 <router-outlet></router-outlet>
