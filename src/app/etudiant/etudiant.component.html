@@ -1,26 +1,4 @@
-<h1>Test Countdown</h1>
-
-
-
-<div>
-  <h3> {{ userName}}</h3>
-  <h3 > {{ log | date}} -- {{ log| date:'shortTime' }}</h3>
-</div>
-
-
-
-<FORM>
-  <SELECT name="nom" size="1" #selectElem>
-    <OPTION *ngFor="let c of categorie" >{{c}}</OPTION>
-  </SELECT>
-
-</FORM>
-<button (click)="selectQuizByCategorie(selectElem.value)">Test</button>
-
-
-
-
-<button *ngFor="let i of compteur " (click)="getQuizs(i-1)">Quiz {{i}}</button>
+<div style="margin: 50px">
 
 
 
@@ -28,67 +6,168 @@
 
 
 
-<div *ngIf="data !== undefined">
 
-  <div *ngIf="showQuestions">
-  <p>La question {{idQuestion + 1}} est : {{data[0][idQuestion]}} </p>
-    <form >
+<nav aria-label="breadcrumb" role="navigation" >
+<ol class="breadcrumb">
+  <li class="breadcrumb-item active " aria-current="page">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
 
-      <input type="radio" name="answer"  id="true" value="true" checked #res1 > True <br>
-      <input type="radio" name="answer" id="false" value="false" #res2 > False
+          <h5 > Last Login : {{ log | date}} {{ log| date:'shortTime' }}</h5>
+        </div>
+        <div class="col-md-4">
+          <h4 class="text-right"> USER : {{ userName}}</h4>
 
-    </form>
-
-  <p> La reponse {{idQuestion + 1}} est  : {{data[1][idQuestion]}}</p>
-  <button (click)="nextQuestion(idQuestion,quizId,res)">Next Question</button>
-  <button (click)="countDown(5,idQuestion)" >Activer le countDown</button>
-  {{test}}
-  {{timeout}}
-
-  <p>THis is a tesst {{data}}</p>
-
-</div>
-
-
-
-  <h2>Votre score est : </h2>
-  <h3>{{globalNote}}</h3>
-</div>
-
-
-
-
-<button (click)="showMyexams()">Show my exams</button>
-<div *ngIf="showExams">
-<div *ngFor="let exam of exams">
-
-  <ul>
-<h1>{{exam.quizTitle}}</h1>
-<p>Passer a : {{ exam.datePass | date}} -- {{ exam.datePass| date:'shortTime' }}</p>
-<h2>Les question </h2>
-    <div *ngFor="let k of [exam.quest1,exam.quest2,exam.quest3,exam.quest4,exam.quest5,exam.quest6,exam.quest7,exam.quest8,exam.quest9,exam.quest10]">
-      <li>{{k}}</li> <br>
+        </div>
+      </div>
     </div>
 
+  </li>
+</ol>
+</nav>
 
-    <hr>
-    <h2>Les reponses </h2>
-    <div *ngFor="let myRes of [exam.res1,exam.res1,exam.res3,exam.res4,exam.res5,exam.res6,exam.res7,exam.res8,exam.res9,exam.res10] " >
 
-      <li>{{myRes}}</li><br>
+
+  <nav class="nav nav-tabs" id="myTab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Pass Exam </a>
+    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">History</a>
+    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+      <FORM>
+        <SELECT name="nom" size="1" #selectElem>
+          <OPTION *ngFor="let c of categorie" >{{c}}</OPTION>
+        </SELECT>
+
+      </FORM>
+      <button (click)="selectQuizByCategorie(selectElem.value)">Confirm exam</button>
+
+      <div *ngFor="let i of compteur " >
+        <button class="btn btn-primary"  (click)="getQuizs(i-1)">Quiz {{i}}</button>
+      </div>
+      <div *ngIf="data !== undefined">
+
+        <div *ngIf="showQuestions">
+          <p>La question {{idQuestion + 1}} est : {{data[0][idQuestion]}} </p>
+          <form >
+
+            <input type="radio" name="answer"  id="true" value="true" checked #res1 > True <br>
+            <input type="radio" name="answer" id="false" value="false" #res2 > False
+
+          </form>
+
+          <p> La reponse {{idQuestion + 1}} est  : {{data[1][idQuestion]}}</p>
+          <button (click)="nextQuestion(idQuestion,quizId,res)">Next Question</button>
+          <button (click)="countDown(5,idQuestion)" >Activer le countDown</button>
+          {{test}}
+          {{timeout}}
+
+
+        </div>
+
+
+
+        <h2>Votre score est : </h2>
+        <h3>{{globalNote}}</h3>
+      </div>
 
     </div>
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
 
-  </ul>
+
+      <div *ngIf="showExams" class="card" style="margin: 10px; padding: 10px">
+        <div  *ngFor="let exam of exams">
+
+          <ul>
+
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+
+
+
+
+                  <p>
+                    <button class="btn btn-primary btn-block" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                      {{exam.quizTitle }}    Passer le : {{ exam.datePass | date}} {{ exam.datePass| date:'shortTime' }}
+                    </button>
+
+                  </p>
+                  <div class="collapse" id="collapseExample">
+                    <div >
+                      <div class="card" style="width: 20rem;" >
+
+                        <ul class="list-group list-group-flush" *ngFor="let k of [exam.quest1,exam.quest2,exam.quest3,exam.quest4,exam.quest5,exam.quest6,exam.quest7,exam.quest8,exam.quest9,exam.quest10]">
+                          <li class="list-group-item" style=" height: 60px"> >{{k}}</li>
+                        </ul>
+
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+                </div>
+                <div class="col-md-6" >
+
+
+                  <div  >
+
+
+                    <p>
+
+                      <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
+                        Montrer vos réponses
+                      </button>
+                    </p>
+                    <div class="collapse" id="collapseExample2">
+                      <div >
+
+                        <div  class="card" style="width: 20rem;" >
+
+                          <ul class="list-group list-group-flush" *ngFor="let myRes of [exam.res1,exam.res1,exam.res3,exam.res4,exam.res5,exam.res6,exam.res7,exam.res8,exam.res9,exam.res10] ">
+                            <li class="list-group-item" style=" height: 60px">{{myRes}}</li>
+                          </ul>
+
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
+          </ul>
+
+
+
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+  </div>
+
 
 
 
 
 </div>
-
-
-</div>
-
-
-

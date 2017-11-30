@@ -10,7 +10,6 @@ import {AngularFireDatabase} from "angularfire2/database";
 })
 export class AppComponent {
 
-  currentUser = {};
   isLoggedIn:boolean;
   constructor(public authService: AuthService,
               private Router: Router,

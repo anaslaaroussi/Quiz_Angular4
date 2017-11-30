@@ -79,6 +79,11 @@ this.arrayOfResponse = []
 
     )
 
+    setTimeout(
+
+      () => { this.showMyexams();}
+      ,2000)
+
   }
 
   ngOnInit() {
