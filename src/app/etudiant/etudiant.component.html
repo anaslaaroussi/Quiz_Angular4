@@ -156,17 +156,17 @@
 
 
                   <p>
-                    <button class="btn btn-primary btn-block" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <button class="btn btn-primary btn-block" (click)="showL()" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                       {{exam.quizTitle }}    Passer le : {{ exam.datePass | date}} {{ exam.datePass| date:'shortTime' }}
                     </button>
 
                   </p>
-                  <div class="collapse" id="collapseExample">
+                  <div *ngIf="showList">
                     <div >
                       <div class="card" style="width: 20rem;" >
 
-                        <ul class="list-group list-group-flush" *ngFor="let k of [exam.quest1,exam.quest2,exam.quest3,exam.quest4,exam.quest5,exam.quest6,exam.quest7,exam.quest8,exam.quest9,exam.quest10]">
-                          <li class="list-group-item" style=" height: 60px"> >{{k}}</li>
+                        <ul *ngFor="let k of [exam.quest1,exam.quest2,exam.quest3,exam.quest4,exam.quest5,exam.quest6,exam.quest7,exam.quest8,exam.quest9,exam.quest10]">
+                         <li>{{k}}</li>
                         </ul>
 
                       </div>
@@ -186,17 +186,17 @@
 
                     <p>
 
-                      <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
+                      <button class="btn btn-primary btn-block" type="button" (click)="showL()" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
                         Montrer vos réponses
                       </button>
                     </p>
-                    <div class="collapse" id="collapseExample2">
+                    <div *ngIf="showList">
                       <div >
 
                         <div  class="card" style="width: 20rem;" >
 
-                          <ul class="list-group list-group-flush" *ngFor="let myRes of [exam.res1,exam.res1,exam.res3,exam.res4,exam.res5,exam.res6,exam.res7,exam.res8,exam.res9,exam.res10] ">
-                            <li class="list-group-item" style=" height: 60px">{{myRes}}</li>
+                          <ul  *ngFor="let myRes of [exam.res1,exam.res1,exam.res3,exam.res4,exam.res5,exam.res6,exam.res7,exam.res8,exam.res9,exam.res10] ">
+                            <li >{{myRes}}</li>
                           </ul>
 
                         </div>

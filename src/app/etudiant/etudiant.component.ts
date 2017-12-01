@@ -16,7 +16,8 @@ import {ToastrService} from "toastr-ng2";
 })
 
 export class EtudiantComponent implements OnInit {
-incorrect : any = []
+showList: boolean = false
+  incorrect : any = []
   examsVisible: boolean = false
   failedMessage : String;
 activeFailedMessage : boolean = false
@@ -361,6 +362,11 @@ showMyexams(){
 }
 
 
+
+showL(){
+
+  this.showList = !this.showList
+}
 
 }
 
