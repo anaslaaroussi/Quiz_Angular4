@@ -1,11 +1,13 @@
+
+
+
+
+
+
+
+
+
 <div style="margin: 50px">
-
-
-
-
-
-
-
 
 <nav aria-label="breadcrumb" role="navigation" >
 <ol class="breadcrumb">
@@ -17,7 +19,9 @@
           <h5 > Last Login : {{ log | date}} {{ log| date:'shortTime' }}</h5>
         </div>
         <div class="col-md-4">
-          <h4 class="text-right"> USER : {{ userName}}</h4>
+
+
+          <h4 class="text-right" style="margin-right: 20px  ">  USER : {{ userName}}</h4>
 
         </div>
       </div>
@@ -37,42 +41,94 @@
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
-      <form>
-        <SELECT name="nom" size="1" #selectElem>
-          <OPTION *ngFor="let c of categorie" >{{c}}</OPTION>
-        </SELECT>
 
-      </form>
-      <button (click)="selectQuizByCategorie(selectElem.value)">Confirm exam</button>
 
-      <div *ngFor="let i of compteur " >
+
+
+
+      <nav aria-label="breadcrumb" role="navigation" >
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active " aria-current="page">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-10">
+
+
+
+                  <form>
+                    <SELECT name="nom" size="1" #selectElem>
+                      <OPTION *ngFor="let c of categorie" >{{c}}</OPTION>
+                    </SELECT>
+
+                  </form>
+
+
+                  <!--<div class="dropdown">-->
+                  <!--<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                  <!--Choose category-->
+                  <!--</button>-->
+                  <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">-->
+                  <!--<a class="dropdown-item" ngFor="let c of categorie">{{c}}</a>-->
+                  <!---->
+                  <!--</div>-->
+                  <!--</div>-->
+                  <!---->
+
+
+
+                </div>
+                <div class="col-md-2">
+
+
+                  <button class="btn btn-warning" (click)="selectQuizByCategorie(selectElem.value)">Confirm category</button>
+
+
+
+                </div>
+              </div>
+            </div>
+
+          </li>
+        </ol>
+      </nav>
+
+
+      <div *ngFor="let i of compteur " style="text-align: center"   >
         <button class="btn btn-primary"  (click)="getQuizs(i-1)">Quiz {{i}}</button>
       </div>
       <div *ngIf="data !== undefined">
 
-        <div *ngIf="showQuestions">
-          <p>La question {{idQuestion + 1}} est : {{data[0][idQuestion]}} </p>
-          <form>
+        <div *ngIf="showQuestions" class="card" style="text-align: center">
+          <div class="card-body">
+            <div *ngIf="examsVisible">
+              <h4 class="card-title"> PASS EXAM</h4>
 
-            <input type="radio" name="answer"  id="true" value="true" checked #res1 > True <br>
-            <input type="radio" name="answer" id="false" value="false" #res2 > False
+              <p class="card-text">La question {{idQuestion + 1}} est : {{data[0][idQuestion]}} </p>
 
-          </form>
+              <form>
 
-          <p> La reponse {{idQuestion + 1}} est  : {{data[1][idQuestion]}}</p>
-          <button (click)="nextQuestion(idQuestion,quizId,res)" *ngIf="showinputnextquestion">Next Question</button>
-          <button (click)="countDown(5,idQuestion)" *ngIf="hideButtonCount">Activer le countDown</button>
-          {{test}}
-          {{timeout}}
+                <input type="radio" name="answer"  id="true" value="true" checked #res1 lass="card-link" > True
+                <input type="radio" name="answer" id="false" value="false" #res2 > False
 
+              </form>
+            </div>
+            <div *ngIf="!examsVisible">
+              <h3> You have 1 minute in each question </h3>
+              <h5>Press Start exam when you are ready</h5>
+            </div>
 
+            <button (click)="nextQuestion(idQuestion,quizId,res)" *ngIf="showinputnextquestion"lass="card-link" >Next Question</button>
+            <button class="btn btn-danger" (click)="startExam(5,idQuestion)" *ngIf="hideButtonCount" lass="card-link">Commencer l'examen</button>
+          </div>
         </div>
 
 
-<div>
+
+
+<div *ngIf="examsVisible" style="text-align: center">
   <h2>Votre score est : </h2>
   <h3>{{globalNote}}</h3>
-<!---->
+
 </div>
 <div *ngIf="activeFailedMessage">
 <h3>{{failedMessage}}</h3>
@@ -125,7 +181,7 @@
                 <div class="col-md-6" >
 
 
-                  <div  >
+                  <div>
 
 
                     <p>

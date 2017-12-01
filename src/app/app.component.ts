@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {AuthService} from "./services/auth.service";
 import {Router} from "@angular/router";
 import {AngularFireDatabase} from "angularfire2/database";
+import {ToastrService} from "toastr-ng2";
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent {
   isLoggedIn:boolean;
   constructor(public authService: AuthService,
               private Router: Router,
-              private db : AngularFireDatabase
+              private db : AngularFireDatabase,
+              private toastrService: ToastrService
 
   ) {
 
@@ -21,7 +23,7 @@ export class AppComponent {
       .subscribe(
       (uid) => {
         this.isLoggedIn = true;
-
+          this.toastrService.success("YOU ARE LOGGED IN ","SUCCESS")
         console.log(uid)
 
       },
@@ -31,8 +33,13 @@ export class AppComponent {
 
 
   logout() {
+    let self = this
     this.authService.logout()
-      this.Router.navigate(["/"]);
+      this.Router.navigate(["/"]).then(
+        function () {
+          self.toastrService.success("YOU ARE LOGGED OUT ","SIGNED OUT")
+        }
+      );
     this.isLoggedIn = false
   }
 

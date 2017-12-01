@@ -5,6 +5,7 @@ import {QuizService} from "../services/quiz.service";
 import * as _ from "lodash";
 import {AngularFireAuth} from "angularfire2/auth";
 import {AngularFireDatabase} from "angularfire2/database";
+import {ToastrService} from "toastr-ng2";
 
 
 
@@ -16,6 +17,7 @@ import {AngularFireDatabase} from "angularfire2/database";
 
 export class EtudiantComponent implements OnInit {
 incorrect : any = []
+  examsVisible: boolean = false
   failedMessage : String;
 activeFailedMessage : boolean = false
   hideButtonCount: boolean = true;
@@ -47,7 +49,8 @@ showQuestions : boolean = true
   categorie : any = ['MATH1','MATH2'];
   constructor(private quizService : QuizService,
               private afAuth: AngularFireAuth,
-              private db: AngularFireDatabase
+              private db: AngularFireDatabase,
+              private toastrService: ToastrService
 
   ) {
 this.arrayOfResponse = []
@@ -60,7 +63,8 @@ this.arrayOfResponse = []
           this.userUID = res.uid;
           this.db.list('users/'+res.uid+'/Logs').valueChanges().subscribe(
 
-            res => { this.logs = res
+            res => {
+              this.logs = res
               this.log = this.logs[this.logs.length-1].log
               console.log(res)
 
@@ -91,8 +95,16 @@ this.arrayOfResponse = []
   ngOnInit() {
   }
 
+startExam(timeout,idQuestion){
+  this.toastrService.info("EXAM STARTED"," YOU HAVE 10 MINUTS")
+    this.examsVisible = true;
+    this.countDown(timeout,idQuestion);
+}
+
+
 
   countDown(timeout,idQuestion: number){
+
     this.hideButtonCount = false;
     this.showinputnextquestion = true
     let timer = TimerObservable.create(0, 1000);
@@ -117,9 +129,8 @@ this.arrayOfResponse = []
 
 
 if(this.incorrect.length > 2 ){
-
+            this.toastrService.error('I will see you in the rattrapage examination :)','You have failed')
             this.activeFailedMessage = true
-            this.failedMessage = 'You have failed, I will see you in the rattrapage examination :)'
             this.showQuestions = false;
             this.subscription.unsubscribe();
 
@@ -168,17 +179,6 @@ if(this.incorrect.length > 2 ){
 
 }
 
-
-        //fin test
-
-
-
-
-
-
-
-
-
         if( this.idQuestion >= 10 )     {
           this.showQuestions = false;
           this.subscription.unsubscribe()
@@ -208,17 +208,8 @@ if(this.incorrect.length > 2 ){
               quest10: this.dataSend[0][0][9],
               datePass : this.dateNow
 
-
-
-
-
-
             })
         }
-
-
-
-
 
       })
       console.log(this.timeout);
@@ -280,13 +271,7 @@ console.log(this.dataSend)
     object[idQuestion] =   res
 
     this.arrayOfResponse.push(res)
-
-
-
-
     object = {}
-
-
     this.subscription.unsubscribe();
     this.countDown(5,idQuestion)
 
@@ -294,7 +279,6 @@ console.log(this.dataSend)
 
     let reponses = this.dataSend[idQuiz][1];
 
-    // console.log('les reponses : ' + reponses)
       this.response.push(res);
 
       if(res == reponses[idQuestion] ){ this.globalNote += 2
