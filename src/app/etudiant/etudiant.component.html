@@ -37,12 +37,12 @@
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
-      <FORM>
+      <form>
         <SELECT name="nom" size="1" #selectElem>
           <OPTION *ngFor="let c of categorie" >{{c}}</OPTION>
         </SELECT>
 
-      </FORM>
+      </form>
       <button (click)="selectQuizByCategorie(selectElem.value)">Confirm exam</button>
 
       <div *ngFor="let i of compteur " >
@@ -52,7 +52,7 @@
 
         <div *ngIf="showQuestions">
           <p>La question {{idQuestion + 1}} est : {{data[0][idQuestion]}} </p>
-          <form >
+          <form>
 
             <input type="radio" name="answer"  id="true" value="true" checked #res1 > True <br>
             <input type="radio" name="answer" id="false" value="false" #res2 > False
@@ -60,8 +60,8 @@
           </form>
 
           <p> La reponse {{idQuestion + 1}} est  : {{data[1][idQuestion]}}</p>
-          <button (click)="nextQuestion(idQuestion,quizId,res)">Next Question</button>
-          <button (click)="countDown(5,idQuestion)" >Activer le countDown</button>
+          <button (click)="nextQuestion(idQuestion,quizId,res)" *ngIf="showinputnextquestion">Next Question</button>
+          <button (click)="countDown(5,idQuestion)" *ngIf="hideButtonCount">Activer le countDown</button>
           {{test}}
           {{timeout}}
 
@@ -69,9 +69,17 @@
         </div>
 
 
+<div>
+  <h2>Votre score est : </h2>
+  <h3>{{globalNote}}</h3>
+<!---->
+</div>
+<div *ngIf="activeFailedMessage">
+<h3>{{failedMessage}}</h3>
 
-        <h2>Votre score est : </h2>
-        <h3>{{globalNote}}</h3>
+</div>
+
+
       </div>
 
     </div>
@@ -168,6 +176,10 @@
 
 
 
-<button>test</button>
+
 
 </div>
+
+
+
+

@@ -5,8 +5,6 @@ import {QuizService} from "../services/quiz.service";
 import * as _ from "lodash";
 import {AngularFireAuth} from "angularfire2/auth";
 import {AngularFireDatabase} from "angularfire2/database";
-import {Observable} from "rxjs/Observable";
-import * as firebase from "firebase";
 
 
 
@@ -17,7 +15,11 @@ import * as firebase from "firebase";
 })
 
 export class EtudiantComponent implements OnInit {
-
+incorrect : any = []
+  failedMessage : String;
+activeFailedMessage : boolean = false
+  hideButtonCount: boolean = true;
+  showinputnextquestion : boolean = false ;
   showExams : boolean = false;
   exams : any = [];
 arrayOfResponse : any = [];
@@ -91,7 +93,8 @@ this.arrayOfResponse = []
 
 
   countDown(timeout,idQuestion: number){
-
+    this.hideButtonCount = false;
+    this.showinputnextquestion = true
     let timer = TimerObservable.create(0, 1000);
 
       this.subscription = timer.subscribe(t => {
@@ -111,16 +114,76 @@ this.arrayOfResponse = []
 
           }
 
-        //re
+
+
+if(this.incorrect.length > 2 ){
+
+            this.activeFailedMessage = true
+            this.failedMessage = 'You have failed, I will see you in the rattrapage examination :)'
+            this.showQuestions = false;
+            this.subscription.unsubscribe();
+
+            for(let i = 0 ; i< 10;i++){
+
+              if(this.arrayOfResponse[i] == undefined){
+
+                this.arrayOfResponse[i] = ''
+              }
+
+
+            }
+
+  this.db.object('users/'+this.userUID+'/exams/'+this.dateNow)
+    .set({quizTitle : this.dataSend[0][3],
+      res1: this.arrayOfResponse[0],
+      res2: this.arrayOfResponse[1],
+      res3: this.arrayOfResponse[2],
+      res4: this.arrayOfResponse[3],
+      res5: this.arrayOfResponse[4],
+      res6: this.arrayOfResponse[5],
+      res7: this.arrayOfResponse[6],
+      res8: this.arrayOfResponse[7],
+      res9: this.arrayOfResponse[8],
+      res10: this.arrayOfResponse[9],
+      quest1: this.dataSend[0][0][0],
+      quest2: this.dataSend[0][0][1],
+      quest3: this.dataSend[0][0][2],
+      quest4: this.dataSend[0][0][3],
+      quest5: this.dataSend[0][0][4],
+      quest6: this.dataSend[0][0][5],
+      quest7: this.dataSend[0][0][6],
+      quest8: this.dataSend[0][0][7],
+      quest9: this.dataSend[0][0][8],
+      quest10: this.dataSend[0][0][9],
+      datePass : this.dateNow
+
+
+
+
+
+
+    })
+
+
+
+}
+
+
+        //fin test
+
+
+
+
+
+
+
+
 
         if( this.idQuestion >= 10 )     {
           this.showQuestions = false;
           this.subscription.unsubscribe()
-          // console.log(`Temps fini les reponse sont : ${this.response}`);
-          // console.log("done done done ");
-          console.log(this.dataSend[0][0])
 
-          console.log(this.arrayOfResponse)
+
           this.db.object('users/'+this.userUID+'/exams/'+this.dateNow)
             .set({quizTitle : this.dataSend[0][3],
               res1: this.arrayOfResponse[0],
@@ -153,6 +216,10 @@ this.arrayOfResponse = []
             })
         }
 
+
+
+
+
       })
       console.log(this.timeout);
   }
@@ -183,8 +250,8 @@ console.log(this.dataSend)
 // extraire la reponse du bouton radio already checked
 
     let res  = '';
-    let tru = document.forms[1].true.checked
-    let fals = document.forms[1].false.checked
+    let tru = document.forms[2].true.checked
+    let fals = document.forms[2].false.checked
     if(tru) {
       res = 'true'
     }
@@ -234,12 +301,15 @@ console.log(this.dataSend)
         this.test = true;
 
 
+
         // console.log('goo')
 
       }
       else {
         // console.log('reponse incorrect');
         this.test = false
+        this.incorrect.push(false)
+
       }
 
     // console.log(`Votre reponse : ${res}     !! La reponse correct ${reponses[idQuestion]}`)
